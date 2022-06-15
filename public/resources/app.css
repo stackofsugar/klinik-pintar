@@ -1,0 +1,162 @@
+body {
+    font-family: "Poppins", sans-serif;
+    min-height: 100vh;
+}
+
+/* Brand Background Color */
+.bg-brand-lightblue {
+    background-color: #627bff;
+}
+.bg-brand-blue {
+    background-color: #435ff2;
+}
+.bg-brand-lightred {
+    background-color: #ea4c4c;
+}
+.bg-brand-purple {
+    background-color: #a656cf;
+}
+.bg-brand-red {
+    background-color: #ff0000;
+}
+
+/* Brand Text Color */
+.color-brand-lightblue {
+    color: #627bff;
+}
+.color-brand-blue {
+    color: #435ff2;
+}
+.color-brand-lightred {
+    color: #ea4c4c;
+}
+.color-brand-purple {
+    color: #a656cf;
+}
+.color-brand-red {
+    color: #ff0000;
+}
+
+/* Navbar Helpers */
+main {
+    padding-top: 3.7rem;
+}
+
+/* Positioning Helpers */
+.mt-n4 {
+    margin-top: -1rem;
+}
+
+/* Carousel Overlay */
+@media screen and (max-width: 768px) {
+    .carousel-overlay-container {
+        top: 30%;
+    }
+    .carousel-overlay-heading {
+        font-size: 8vw;
+    }
+    .carousel-overlay-content {
+        font-size: 2.5vw;
+    }
+}
+@media screen and (min-width: 768px) {
+    .carousel-overlay-container {
+        top: 40%;
+    }
+    .carousel-overlay-heading {
+        font-size: 4rem;
+    }
+}
+.carousel-overlay-container {
+    position: absolute;
+    right: 15%;
+    z-index: 20;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+/* Front Card */
+.card-front-info {
+    width: 25rem;
+    color: white;
+    border-radius: 0;
+    border: 0;
+    padding: 1.6rem;
+}
+
+/* Front Slick */
+.slick-front-item {
+    margin: 0.8rem;
+}
+.slick-front .slick-prev:before,
+.slick-front .slick-next:before {
+    color: black;
+}
+
+/* Testimonials */
+.testimonial-container {
+    background-image: url("/assets/testimonials/main-bg.jpg");
+    background-size: 100% auto;
+    background-clip: border-box;
+}
+
+.testimonial-card {
+    margin: 0.8rem;
+    min-height: 380 px;
+    /* width: 18rem; */
+}
+.testimonial-card-image {
+    width: 8rem;
+    border-radius: 50%;
+    margin: 0 auto 1rem auto;
+}
+
+/* Typography Manipulator */
+.link-light-silent {
+    color: #f8f9fa !important;
+    text-decoration-line: none;
+}
+.link-light-silent:hover {
+    color: #f9fafb !important;
+    text-decoration-line: underline;
+}
+.link-child-dark a {
+    color: #212529 !important;
+}
+.nodrag {
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Profile */
+.profile-item {
+    user-select: none;
+    -webkit-user-drag: none;
+    color: #212529;
+    text-decoration: none;
+    padding: 0.7rem 1rem;
+}
+.profile-item:hover {
+    color: #212529;
+    background-color: #dddddd;
+}
+.profile-item:active {
+    background-color: #e6e6e6;
+}
+.profile-select {
+    user-select: none;
+    -webkit-user-drag: none;
+    color: #212529;
+    text-decoration: none;
+    padding: 0.7rem 1rem;
+}
+.profile-select:hover {
+    color: #212529;
+    background-color: #f7f7f7;
+}
+.profile-select:active {
+    background-color: #e6e6e6;
+}
