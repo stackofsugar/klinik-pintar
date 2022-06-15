@@ -1,5 +1,3 @@
-# KlinikPintar
-
 <h1 align="center" name="top">KlinikPintar Web</h1>
 <div align="center">
 <a href="https://choosealicense.com/licenses/mit/" target="_blank">
