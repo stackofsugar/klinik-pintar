@@ -21,7 +21,7 @@
 
 <body>
     <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/admin/dashboard">
             <img src="/assets/brand-logo.svg" alt="" height="28px" class="me-1">
             Admin Dash
         </a>
@@ -37,18 +37,51 @@
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link @yield('home-active')" href="#">
-                                <i class="bi bi-house-door me-1"></i>
-                                Dashboard Admin
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @yield('home-active')" href="#">
+                            <a class="nav-link @yield('home-active')" href="/admin/dashboard">
                                 <i class="bi bi-house-door me-1"></i>
                                 Dashboard Admin
                             </a>
                         </li>
                     </ul>
+
+                    <h6
+                        class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-2 text-muted">
+                        <span>Manajemen Akun</span>
+                    </h6>
+                    <ul class="nav flex-column">
+                        @cannot('admin.cashier')
+                            <li class="nav-item">
+                                <a class="nav-link @yield('useracc-active')" href="/admin/dashboard/account/user">
+                                    <i class="bi bi-person me-1"></i>
+                                    Akun Pengguna
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="bi bi-heart-pulse me-1"></i>
+                                    Dokter
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="bi bi-bandaid me-1"></i>
+                                    Pasien
+                                </a>
+                            </li>
+                        @endcannot
+                        @can('admin.god')
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-emoji-smile me-1"></i>
+                                Administrator
+                            </a>
+                        @endcan
+                    </ul>
+
+                    <h6
+                        class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-2 text-muted">
+                        <span>Manajemen Operasi</span>
+                    </h6>
+
 
                     <h6
                         class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-2 text-muted">

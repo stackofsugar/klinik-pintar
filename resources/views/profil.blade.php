@@ -1,4 +1,5 @@
 @inject('patient', 'App\Models\Patient')
+@inject('doctor', 'App\Models\Doctor')
 @extends('layouts.main')
 @section('title', 'Profil')
 @section('content')
@@ -62,9 +63,11 @@
                     <hr class="mb-0 mt-2">
                     <div>
                         <x-profile.entry ptype="1" key="Nama" fieldname="Nama" :value="Auth::user()->fullname" havebreak="1" />
-                        <x-profile.entry ptype="1" key="Username" fieldname="Username" :value="Auth::user()->username" havebreak="1" />
+                        <x-profile.entry ptype="1" key="Username" fieldname="Username" :value="Auth::user()->username"
+                            havebreak="1" />
                         <x-profile.entry ptype="1" key="Email" fieldname="Email" :value="Auth::user()->email" havebreak="1" />
-                        <x-profile.entry ptype="1" key="Password" fieldname="Password Baru" value="*****" havebreak="0" />
+                        <x-profile.entry ptype="1" key="Password" fieldname="Password Baru" value="*****"
+                            havebreak="0" />
                     </div>
                 </div>
             </div>
@@ -87,9 +90,11 @@
                         <hr class="mb-0 mt-2">
                         <div>
                             @can('doctor.active')
-                                <x-profile.entry ptype="2" key="No. SIP" value="value" fieldname="No. SIP" havebreak="1" />
-                                <x-profile.entry ptype="2" key="Poli Bagian" value="value" fieldname="Poli Bagian" havebreak="1" />
-                                <x-profile.entry ptype="2" key="No. Handphone" value="value" fieldname="No. Handphone"
+                                <x-profile.entry ptype="2" key="No. SIP" :value="$doctor->user()->sip_num" fieldname="No. SIP"
+                                    havebreak="1" />
+                                <x-profile.entry ptype="2" key="Poli Bagian" :value="$doctor->getPoli()" fieldname="Poli Bagian"
+                                    havebreak="1" />
+                                <x-profile.entry ptype="2" key="No. Handphone" :value="$doctor->user()->phone_num" fieldname="No. Handphone"
                                     havebreak="1" />
                             @elsecan('patient')
                                 <x-profile.entry ptype="2" key="NIK" :value="$patient->user()->nik" fieldname="NIK" havebreak="1" />
@@ -97,7 +102,8 @@
                                     havebreak="1" />
                                 <x-profile.entry ptype="2" key="Tanggal Lahir" :value="$patient->user()->date_of_birth" fieldname="Tanggal Lahir"
                                     havebreak="1" />
-                                <x-profile.entry ptype="2" key="Alamat" :value="$patient->user()->address" fieldname="Alamat" havebreak="1" />
+                                <x-profile.entry ptype="2" key="Alamat" :value="$patient->user()->address" fieldname="Alamat"
+                                    havebreak="1" />
                                 <x-profile.entry ptype="2" key="Provinsi" value="" fieldname="Provinsi" havebreak="1" />
                                 <x-profile.entry ptype="2" key="Kota" value="" fieldname="Kota" havebreak="1" />
                                 <x-profile.entry ptype="2" key="RT" :value="$patient->user()->rt" fieldname="RT" havebreak="1" />
@@ -125,12 +131,14 @@
                             <div class="row g-0">
                                 <div class="mb-3" id="modal-input-group">
                                     <label for="" class="form-label"></label>
-                                    <input type="text" class="main-input form-control" id="" name="" required>
+                                    <input type="text" class="main-input form-control" id="" name=""
+                                        required>
                                     <div class="input-group d-none">
                                         <input type="password" class="form-control" id="password-baru"
                                             name="password-baru" required>
                                         <span id="passwordPeek" class="input-group-text"
-                                            onmousedown="mousedownPasswordPeek(this)" onmouseup="mouseupPasswordPeek(this)">
+                                            onmousedown="mousedownPasswordPeek(this)"
+                                            onmouseup="mouseupPasswordPeek(this)">
                                             <i class="bi bi-eye-fill"></i>
                                         </span>
                                     </div>
@@ -147,7 +155,8 @@
                                         <input type="password" class="form-control" id="password" name="password"
                                             required>
                                         <span id="passwordPeek" class="input-group-text"
-                                            onmousedown="mousedownPasswordPeek(this)" onmouseup="mouseupPasswordPeek(this)">
+                                            onmousedown="mousedownPasswordPeek(this)"
+                                            onmouseup="mouseupPasswordPeek(this)">
                                             <i class="bi bi-eye-fill"></i>
                                         </span>
                                     </div>

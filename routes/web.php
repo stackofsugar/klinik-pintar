@@ -38,7 +38,11 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::controller(OperationController::class)->group(function () {
-    Route::get("/reservasi", "showReservasi");
+    Route::middleware("auth")->group(function () {
+        Route::get("/reservasi", "showReservasi")->name("reservasi");
+        Route::post("/reservasi", "postReservasi");
+        Route::delete("/reservasi", "deleteReservasi");
+    });
 });
 
 Route::controller(StrictAccessController::class)->group(function () {
@@ -48,5 +52,6 @@ Route::controller(StrictAccessController::class)->group(function () {
 
     Route::middleware("can:admin")->group(function () {
         Route::get("/admin/dashboard", "showAdminDashboard");
+        Route::get("/admin/dashboard/account/user", "showUserAccounts");
     });
 });

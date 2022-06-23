@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,5 +32,19 @@ class StrictAccessController extends Controller {
 
     public function showAdminDashboard() {
         return view("admin.dashboard");
+    }
+
+    public function showUserAccounts(Request $request) {
+        $perPage = 10;
+        if ($request->has("perpage") && is_numeric($request->perpage)) {
+            $perPage = $request->perpage;
+        }
+
+        $users = User::paginate($perPage);
+        $users->appends(["perpage" => $perPage]);
+
+        return view("admin.useracc", [
+            "users" => $users
+        ]);
     }
 }

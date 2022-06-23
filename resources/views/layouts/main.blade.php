@@ -50,9 +50,11 @@
                             </li>
                         @endcan
                         @cannot('admin')
-                            <li class="nav-item px-lg-2">
-                                <a class="nav-link @yield('reservasi-active')" href="/reservasi">Reservasi</a>
-                            </li>
+                            @cannot('doctor')
+                                <li class="nav-item px-lg-2">
+                                    <a class="nav-link @yield('reservasi-active')" href="/reservasi">Reservasi</a>
+                                </li>
+                            @endcannot
                         @endcannot
                     </ul>
                     <span class="d-flex">
@@ -160,7 +162,8 @@
                             <p class="mb-1">Gedung <strong>KlinikPintar</strong></p>
                             <p class="mb-1">Jl. Ir. Sutami No.109, Jebres, Kec. Jebres, Kota Surakarta, Jawa
                                 Tengah 57126</p>
-                            <a class="link-light-silent" href="https://g.page/Jurugsolozoo?share">Temukan kami di Google
+                            <a class="link-light-silent" href="https://g.page/Jurugsolozoo?share">Temukan kami di
+                                Google
                                 Maps</a>
                         </div>
                     </div>

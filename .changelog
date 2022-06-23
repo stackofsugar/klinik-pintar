@@ -6,3 +6,13 @@ Changes below:
 - Changed readme layout
 - Added MIT license
 - Added changelog for convenience
+
+3. 23 Jun 22
+Changes below:
+Minor Changes:
+- Fixed project status (planning -> ongoing)
+Major Changes:
+- Added Admin Dashboard features
+- Added Reservation features (views, routes, models, and controllers)
+- Changed collation of "username" in table users to be case sensitive
+- Created User <=> Doctors seeder

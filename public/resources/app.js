@@ -297,6 +297,31 @@ function selectProvinceChange() {
 }
 // !SECTION Location Picker Handler
 
+// SECTION Reservation Doctor Picker Handler
+function selectDoctorChange() {
+    var poliSelectValue = $(".form-select#id_poli_bagian").val();
+    var doctorSelectOptions = $(".form-select#id_dokter");
+    var isFirstEntry = true;
+
+    doctorSelectOptions.empty();
+    for (const item in list_dokter) {
+        if (list_dokter[item].poli_bagian_id == poliSelectValue) {
+            var objectDokter = list_dokter[item];
+            if (isFirstEntry) {
+                doctorSelectOptions.append(
+                    `<option value="${objectDokter.id}" selected>${objectDokter.fullname}</option>`
+                );
+                isFirstEntry = false;
+            } else {
+                doctorSelectOptions.append(
+                    `<option value="${objectDokter.id}">${objectDokter.fullname}</option>`
+                );
+            }
+        }
+    }
+}
+// !SECTION Reservation Doctor Picker Handler
+
 // SECTION Helper Functions
 const profileTypeParseRules = {
     nama: "fullname",

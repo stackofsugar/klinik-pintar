@@ -3,5 +3,5 @@
 <a href="https://choosealicense.com/licenses/mit/" target="_blank">
 <img src="https://img.shields.io/badge/License-MIT-green"></img></a>
 <a href="#!" target="_blank">
-<img src="https://img.shields.io/badge/project-planning-yellow"></img></a>
+<img src="https://img.shields.io/badge/project-ongoing-yellow"></img></a>
 </div>

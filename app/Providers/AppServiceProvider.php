@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\User;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
@@ -29,6 +30,8 @@ class AppServiceProvider extends ServiceProvider {
         if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
+
+        Paginator::useBootstrapFive();
 
         /**
          * List of all available gates
