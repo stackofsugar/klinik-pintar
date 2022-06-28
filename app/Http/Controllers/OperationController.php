@@ -21,13 +21,13 @@ class OperationController extends Controller {
         } else if ($user->can("doctor.active")) {
             return redirect("/");
         } else {
-            $idPasien = Patient::where("user_id", "=", Auth::user()->id)->first()->value("id");
+            $idPasien = Patient::where("user_id", "=", Auth::user()->id)->first()->id;
             $listDokter = Doctor::select("doctors.id", "users.fullname", "doctors.poli_bagian_id")
                 ->join("users", "users.id", "=", "doctors.user_id")
                 ->where("is_active", "=", 1)
                 ->get();
             $listPoli = DB::table("ref_poli_bagian")->pluck("name", "id");
-            $listReservasi = Reservation::where("id_pasien", "=", $idPasien)->get();
+            $listReservasi = Reservation::allByPatientID($idPasien);
 
             return view("auth.reservasi", [
                 "list_poli" => $listPoli->all(),
@@ -82,14 +82,17 @@ class OperationController extends Controller {
         $validated["reservation_code"] = Str::random(16);
 
         $validated["status_pasien"] = "terjadwal";
-        $validated["id_pasien"] = Patient::where("user_id", "=", Auth::user()->id)->first()->value("id");
+        $validated["id_pasien"] = Patient::where("user_id", "=", Auth::user()->id)->first()->id;
 
         Reservation::create($validated);
         return redirect(route("reservasi"))->with("successAlert", "Reservasi anda berhasil disimpan!");
     }
 
     public function deleteReservasi(Request $request) {
-        $reservationInstance = Reservation::where("reservation_code", "=", $request->reservation_code)->first();
+        $reservationInstance = Reservation::activeByCodeOrWarn($request->reservation_code);
+        if ($reservationInstance->id_reservasi != null) {
+            return redirect(route("reservasi"))->with("errorAlert", "Anda tidak dapat menghapus reservasi aktif!");
+        }
         $reservationInstance->delete();
         return redirect(route("reservasi"))->with("successAlert", "Reservasi anda berhasil dihapus!");
     }

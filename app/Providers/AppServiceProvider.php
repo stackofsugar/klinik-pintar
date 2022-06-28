@@ -67,6 +67,15 @@ class AppServiceProvider extends ServiceProvider {
         Gate::define("admin", function (User $user) {
             return $user->canAny(["admin.cashier", "admin.global", "admin.god", "admin.poli"]);
         });
+        Gate::define("admin.godglobal", function (User $user) {
+            return $user->canAny(["admin.god", "admin.global"]);
+        });
+        Gate::define("admin.godpoli", function (User $user) {
+            return $user->canAny(["admin.god", "admin.poli"]);
+        });
+        Gate::define("admin.godcashier", function (User $user) {
+            return $user->canAny(["admin.god", "admin.cashier"]);
+        });
 
         /**
          * Doctor

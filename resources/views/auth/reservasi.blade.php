@@ -26,6 +26,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
+        @if (session('errorAlert'))
+            <div class="alert alert-danger">
+                {{ session('errorAlert') }}
+            </div>
+        @endif
         <div>
             <div class="mb-2">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reservasiModal"><i
@@ -44,14 +49,31 @@
                     <tbody>
                         @foreach ($list_reservasi as $reservasi)
                             @php
-                                $date = new DateTime($reservasi->planned_arrival);
-                                $dateString = $date->format('j F Y');
+                                $reserveDate = new DateTime($reservasi->planned_arrival);
+                                $reserveDate->setTime(0, 0, 0);
+                                $todayDate = new DateTime('today');
+                                $diff = $todayDate->diff($reserveDate);
+                                $diffDays = (int) $diff->format('%R%a');
                                 
-                                $reservasiClass = '';
-                                if ($reservasi->status_pasien == 'terjadwal') {
-                                    $reservasiClass = 'badge bg-success';
-                                } elseif ($reservasi->status_pasien == 'kadaluwarsa') {
-                                    $reservasiClass = 'badge bg-danger';
+                                $dateString = $reserveDate->format('j F Y');
+                                
+                                $statusClass = '';
+                                $statusMessage = '';
+                                
+                                if ($reservasi->is_closed == 1) {
+                                    $statusClass = 'badge bg-primary';
+                                    $statusMessage = 'ada tagihan';
+                                } elseif ($reservasi->id_visit != null) {
+                                    $statusClass = 'badge bg-success';
+                                    $statusMessage = 'aktif';
+                                } else {
+                                    if ($diffDays < 0) {
+                                        $statusClass = 'badge bg-danger';
+                                        $statusMessage = 'kedaluwarsa';
+                                    } else {
+                                        $statusClass = 'badge bg-warning text-dark';
+                                        $statusMessage = 'belum datang';
+                                    }
                                 }
                                 
                                 $namaPoliBagian = $list_poli[$reservasi->id_poli_bagian];
@@ -64,22 +86,24 @@
                                 <td>{{ $dateString }}</td>
                                 <td>{{ $namaPoliBagian }}</td>
                                 <td>{{ $namaDokter }}</td>
-                                <td><span class="{{ $reservasiClass }}">{{ $reservasi->status_pasien }}</span></td>
+                                <td><span class="{{ $statusClass }}">{{ $statusMessage }}</span></td>
                                 <td>
-                                    <form action="{{ route('reservasi') }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input type="hidden" name="reservation_code"
-                                            value="{{ $reservasi->reservation_code }}">
-                                        <button class="btn btn-danger btn-sm px-1 py-0" type="submit"><i
-                                                class="bi bi-trash3"></i></button>
-                                    </form>
+                                    @if ($reservasi->is_closed == 1)
+                                        <button class="btn btn-success btn-sm px-1 py-0" type="submit"><i
+                                                class="bi bi-eye"></i></button>
+                                    @else
+                                        <form action="{{ route('reservasi') }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="hidden" name="reservation_code"
+                                                value="{{ $reservasi->reservation_code }}">
+                                            <button class="btn btn-danger btn-sm px-1 py-0" type="submit"><i
+                                                    class="bi bi-trash3"></i></button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
-                        {{-- <tr>
-                            <td colspan="5">Belum ada data</td>
-                        </tr> --}}
                     </tbody>
                 </table>
             </div>

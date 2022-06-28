@@ -53,5 +53,31 @@ Route::controller(StrictAccessController::class)->group(function () {
     Route::middleware("can:admin")->group(function () {
         Route::get("/admin/dashboard", "showAdminDashboard");
         Route::get("/admin/dashboard/account/user", "showUserAccounts");
+
+        Route::middleware("can:admin.godglobal")->group(function () {
+            Route::get("/admin/dashboard/kunjungan", "showKunjungan")->name('kunjungan');
+            Route::post("/admin/dashboard/kunjungan", "postKunjungan");
+            Route::delete("/admin/dashboard/kunjungan", "deleteKunjungan");
+        });
+
+        Route::middleware("can:admin.godpoli")->group(function () {
+            Route::get("admin/dashboard/kunjunganpoli", "showKunjunganPoli")->name("kunjunganpoli");
+            Route::get("admin/dashboard/kunjunganpoli/{reserve_code}", "showIndividualKunjunganPoli")->name("kunjunganpoliindividual");
+            Route::post("admin/dashboard/kunjunganpoli/{reserve_code}", "saveKunjunganPoli");
+
+            Route::post("admin/dashboard/savetindakan", "saveTindakan")->name("saveTindakan");
+            Route::post("admin/dashboard/deletetindakan", "deleteTindakan")->name("deleteTindakan");
+
+            Route::post("admin/dashboard/savebhp", "saveBhp")->name("saveBhp");
+            Route::post("admin/dashboard/deletebhp", "deleteBhp")->name("deleteBhp");
+
+            Route::post("admin/dashboard/saveobat", "saveObat")->name("saveObat");
+            Route::post("admin/dashboard/deleteobat", "deleteObat")->name("deleteObat");
+        });
+
+        Route::middleware("can:admin.godcashier")->group(function () {
+            Route::get("admin/dashboard/tagihan", "showTagihan")->name("adminTagihan");
+            Route::get("admin/dashboard/tagihan/{reserve_code}", "showIndividualTagihan")->name("adminIndividualTagihan");
+        });
     });
 });

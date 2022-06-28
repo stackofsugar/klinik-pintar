@@ -22,7 +22,7 @@
                 Poli
             @endcan
             @can('admin.god')
-                <span class="fs-2">𓂸𓀐𓂺𓀐𓂸𓀐𓂺𓀐𓂸𓀐𓂺</span>
+                <span>Pemilik</span>
             @endcan
         </h5>
     </div>

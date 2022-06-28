@@ -358,3 +358,105 @@ function parseProfileGroup(type) {
     return group;
 }
 // !SECTION Helper Functions
+
+// SECTION Tutup Kunjungan Checkbox
+function checkTutupKunjungan() {
+    if ($("#save_prompt").is(":checked")) {
+        $("#simpan-kunjungan-text").text("Simpan dan Tutup Kunjungan");
+        $("#simpan-logo").removeClass("bi-clipboard-check").addClass("bi-key");
+    } else {
+        $("#simpan-kunjungan-text").text("Simpan Kunjungan");
+        $("#simpan-logo").removeClass("bi-key").addClass("bi-clipboard-check");
+    }
+}
+// !SECTION Tutup Kunjungan Checkbox
+
+// SECTION Tindakan Operation
+function updateSatuanTindakan() {
+    var tindakanSelect = $("#tindakan");
+    var hargaSatuanField = $("#tindakan-harga-satuan");
+
+    var selectedTindakanId = tindakanSelect.val();
+    if (selectedTindakanId == "") {
+        hargaSatuanField.text("0");
+    } else {
+        for (const item in listTindakan) {
+            if (listTindakan[item].id == selectedTindakanId) {
+                hargaSatuanField.text(listTindakan[item].harga);
+                break;
+            }
+        }
+    }
+    updateTotalTindakan();
+}
+
+function updateTotalTindakan() {
+    var jumlahTindakan = $("#tindakan_jumlah");
+    var hargaSatuanField = $("#tindakan-harga-satuan");
+    var hargaTotal = $("#tindakan-harga-total");
+
+    hargaTotal.text(jumlahTindakan.val() * hargaSatuanField.text());
+}
+// !SECTION Tindakan Operation
+
+// SECTION BHP Operation
+function updateSatuanBHP() {
+    var BhpSelect = $("#bhp");
+    var hargaSatuanField = $("#bhp-harga-satuan");
+    var satuanField = $("#bhp-satuan");
+
+    var selectedBhpId = BhpSelect.val();
+    if (selectedBhpId == "") {
+        hargaSatuanField.text("0");
+        satuanField.text("");
+    } else {
+        for (const item in listBHP) {
+            if (listBHP[item].id == selectedBhpId) {
+                hargaSatuanField.text(listBHP[item].harga);
+                satuanField.text(listBHP[item].satuan);
+                break;
+            }
+        }
+    }
+    updateTotalBHP();
+}
+
+function updateTotalBHP() {
+    var jumlahBhp = $("#bhp_jumlah");
+    var hargaSatuanField = $("#bhp-harga-satuan");
+    var hargaTotal = $("#bhp-harga-total");
+
+    hargaTotal.text(jumlahBhp.val() * hargaSatuanField.text());
+}
+// !SECTION BHP Operation
+
+// SECTION Obat Operation
+function updateSatuanObat() {
+    var obatSelect = $("#obat");
+    var hargaSatuanField = $("#obat-harga-satuan");
+    var satuanField = $("#obat-satuan");
+
+    var selectedObatId = obatSelect.val();
+    if (selectedObatId == "") {
+        hargaSatuanField.text("0");
+        satuanField.text("");
+    } else {
+        for (const item in listObat) {
+            if (listObat[item].id == selectedObatId) {
+                hargaSatuanField.text(listObat[item].harga);
+                satuanField.text(listObat[item].satuan);
+                break;
+            }
+        }
+    }
+    updateTotalObat();
+}
+
+function updateTotalObat() {
+    var jumlahObat = $("#obat_jumlah");
+    var hargaSatuanField = $("#obat-harga-satuan");
+    var hargaTotal = $("#obat-harga-total");
+
+    hargaTotal.text(jumlahObat.val() * hargaSatuanField.text());
+}
+// !SECTION Obat Operation

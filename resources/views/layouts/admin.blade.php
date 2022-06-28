@@ -81,6 +81,36 @@
                         class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-2 text-muted">
                         <span>Manajemen Operasi</span>
                     </h6>
+                    @can('admin.godglobal')
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link @yield('kunjungan-active')" href="{{ route('kunjungan') }}">
+                                    <i class="bi bi-pin-map me-1"></i>
+                                    Kunjungan
+                                </a>
+                            </li>
+                        </ul>
+                    @endcan
+                    @can('admin.godpoli')
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link @yield('kunjunganpoli-active')" href="{{ route('kunjunganpoli') }}">
+                                    <i class="bi bi-geo-alt me-1"></i>
+                                    Kunjungan Poli
+                                </a>
+                            </li>
+                        </ul>
+                    @endcan
+                    @can('admin.godcashier')
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link @yield('tagihan-active')" href="{{ route('adminTagihan') }}">
+                                    <i class="bi bi-cash me-1"></i>
+                                    Tagihan
+                                </a>
+                            </li>
+                        </ul>
+                    @endcan
 
 
                     <h6
@@ -111,7 +141,7 @@
             {{-- Main + Plugin JS --}}
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-                        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+                integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
             </script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
             <script src="/resources/app.js"></script>
