@@ -374,4 +374,97 @@ class StrictAccessController extends Controller {
             return redirect(route('kunjunganpoliindividual', $request->kode_reservasi));
         }
     }
+
+    public function showTagihan(Request $request) {
+        if ($request->query("reservation_code") == null) {
+            return view("admin.tagihan");
+        } else {
+            $request->flash();
+
+            $reserveInstance = Reservation::activeByCodeOrWarn($request->query("reservation_code"));
+            if ($reserveInstance == null) {
+                return view("admin.tagihan")
+                    ->with("tagihanError", "Reservasi tidak ditemukan!");
+            }
+
+            $polivisitInstance = Reservation::getPolivisitInstanceByCode($request->query("reservation_code"));
+            if ($polivisitInstance == null) {
+                return view("admin.tagihan")
+                    ->with("tagihanError", "Pasien belum berkunjung ke poli!");
+            }
+            if (!$polivisitInstance->is_closed) {
+                return view("admin.tagihan")
+                    ->with("tagihanError", "Kunjungan Poli belum ditutup!");
+            }
+
+            $idPasien = $reserveInstance->id_pasien;
+            $idDokter = $reserveInstance->id_dokter;
+            $patientFullname = Patient::getUserByID($idPasien)->fullname;
+            $doctorFullname = Doctor::getUserByID($idDokter)->fullname;
+
+            $namaPoli = DB::table("ref_poli_bagian")->where("id", "=", $reserveInstance->id_poli_bagian)->first()->name;
+
+            return view("admin.tagihan")
+                ->with("tagihanSuccess", "Tagihan ditemukan!")
+                ->with("reserveInstance", $reserveInstance)
+                ->with("polivisitInstance", $polivisitInstance)
+                ->with("patientFullname", $patientFullname)
+                ->with("doctorFullname", $doctorFullname)
+                ->with("namaPoli", $namaPoli);
+        }
+    }
+
+    public function showIndividualTagihan(Request $request, $reservation_code) {
+
+        $returnURL = route("adminTagihan", ["reservation_code" => $reservation_code]);
+
+        $reserveInstance = Reservation::activeByCodeOrWarn($reservation_code);
+        $polivisitInstance = Reservation::getPolivisitInstanceByCode($reservation_code);
+        if ($reserveInstance == null || $polivisitInstance == null || !$polivisitInstance->is_closed) {
+            abort(404);
+        }
+        $idPasien = $reserveInstance->id_pasien;
+        $idDokter = $reserveInstance->id_dokter;
+        $patientFullname = Patient::getUserByID($idPasien)->fullname;
+        $doctorFullname = Doctor::getUserByID($idDokter)->fullname;
+        $namaPoli = DB::table("ref_poli_bagian")->where("id", "=", $reserveInstance->id_poli_bagian)->first()->name;
+
+        $savedTindakan = Tindakan::join("ref_tindakan", "tindakan.id_tindakan", "=", "ref_tindakan.id")
+            ->select("ref_tindakan.nama", "tindakan.jumlah", "tindakan.id", "tindakan.harga")
+            ->where("tindakan.id_polivisit", "=", $polivisitInstance->id)
+            ->get()->all();
+
+        $savedBhp = Bhp::join("ref_bhp", "bhp.id_bhp", "=", "ref_bhp.id")
+            ->select("ref_bhp.nama", "bhp.jumlah", "bhp.id", "ref_bhp.satuan", "bhp.harga")
+            ->where("bhp.id_polivisit", "=", $polivisitInstance->id)
+            ->get()->all();
+
+        $savedObat = Obat::join("ref_obat", "obat.id_obat", "=", "ref_obat.id")
+            ->select("ref_obat.nama", "obat.jumlah", "obat.id", "ref_obat.satuan", "obat.harga")
+            ->where("obat.id_polivisit", "=", $polivisitInstance->id)
+            ->get()->all();
+
+        return view("admin.tagihanindiv")
+            ->with("returnURL", $returnURL)
+            ->with("reserveInstance", $reserveInstance)
+            ->with("polivisitInstance", $polivisitInstance)
+            ->with("patientFullname", $patientFullname)
+            ->with("doctorFullname", $doctorFullname)
+            ->with("namaPoli", $namaPoli)
+            ->with("savedTindakan", $savedTindakan)
+            ->with("savedBhp", $savedBhp)
+            ->with("savedObat", $savedObat);
+    }
+
+    public function saveTagihan(Request $request) {
+        if (isset($request->bayar_confirm)) {
+            $polivisitInstance = Reservation::getPolivisitInstanceByCode($request->reservation_id);
+            $polivisitInstance->sudah_dibayar = true;
+            $polivisitInstance->save();
+            return redirect()->back()
+                ->with("tagihanSuccess", "Tagihan berhasil dibayar!");
+        } else {
+            return redirect()->back();
+        }
+    }
 }

@@ -61,8 +61,13 @@
                                 $statusMessage = '';
                                 
                                 if ($reservasi->is_closed == 1) {
-                                    $statusClass = 'badge bg-primary';
-                                    $statusMessage = 'ada tagihan';
+                                    if ($reservasi->sudah_dibayar == true) {
+                                        $statusClass = 'badge bg-secondary';
+                                        $statusMessage = 'selesai';
+                                    } else {
+                                        $statusClass = 'badge bg-primary';
+                                        $statusMessage = 'ada tagihan';
+                                    }
                                 } elseif ($reservasi->id_visit != null) {
                                     $statusClass = 'badge bg-success';
                                     $statusMessage = 'aktif';
@@ -89,8 +94,9 @@
                                 <td><span class="{{ $statusClass }}">{{ $statusMessage }}</span></td>
                                 <td>
                                     @if ($reservasi->is_closed == 1)
-                                        <button class="btn btn-success btn-sm px-1 py-0" type="submit"><i
-                                                class="bi bi-eye"></i></button>
+                                        {{-- <button class="btn btn-success btn-sm px-1 py-0" type="submit"><i
+                                                class="bi bi-eye"></i></button> --}}
+                                    @elseif ($reservasi->id_visit != null)
                                     @else
                                         <form action="{{ route('reservasi') }}" method="POST">
                                             @csrf

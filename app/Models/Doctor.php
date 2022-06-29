@@ -19,6 +19,11 @@ class Doctor extends Model {
         return self::where("user_id", "=", $userID)->first();
     }
 
+    public static function getUserByID(int $id) {
+        $userID = self::find($id)->user_id;
+        return User::find($userID);
+    }
+
     public static function getPoli() {
         $poliID = self::user()->poli_bagian_id;
         $poliName = DB::table("ref_poli_bagian")->where("id", "=", $poliID)->value("name");

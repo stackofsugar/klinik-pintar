@@ -17,7 +17,7 @@ class Reservation extends Model {
         $result = self::leftJoin("visits", "visits.id_reservasi", "=", "reservations.id")
             ->leftJoin("polivisits", "visits.id", "=", "polivisits.id_kunjungan")
             ->where("reservations.id_pasien", "=", $patientID)
-            ->select("reservations.*", "visits.id as id_visit", "polivisits.is_closed")
+            ->select("reservations.*", "visits.id as id_visit", "polivisits.is_closed", "polivisits.sudah_dibayar")
             ->get();
 
         return $result;
@@ -55,7 +55,13 @@ class Reservation extends Model {
 
     public static function getPolivisitInstanceByCode(string $reservation_code) {
         $reservationInstance = self::where("reservation_code", "=", $reservation_code)->first();
+        if ($reservationInstance == null) {
+            return null;
+        }
         $kunjunganInstance = Visit::where("id_reservasi", "=", $reservationInstance->id)->first();
+        if ($kunjunganInstance == null) {
+            return null;
+        }
         $kunjunganPoliInstance = Polivisit::where("id_kunjungan", "=", $kunjunganInstance->id)->first();
         return $kunjunganPoliInstance;
     }

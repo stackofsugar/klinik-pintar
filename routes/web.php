@@ -78,6 +78,7 @@ Route::controller(StrictAccessController::class)->group(function () {
         Route::middleware("can:admin.godcashier")->group(function () {
             Route::get("admin/dashboard/tagihan", "showTagihan")->name("adminTagihan");
             Route::get("admin/dashboard/tagihan/{reserve_code}", "showIndividualTagihan")->name("adminIndividualTagihan");
+            Route::post("admin/dashboard/savetagihan", "saveTagihan")->name("saveTagihan");
         });
     });
 });

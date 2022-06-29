@@ -17,4 +17,9 @@ class Patient extends Model {
         $userID = Auth::user()->id;
         return self::where("user_id", "=", $userID)->first();
     }
+
+    public static function getUserByID(int $id) {
+        $userID = self::find($id)->user_id;
+        return User::find($userID);
+    }
 }
